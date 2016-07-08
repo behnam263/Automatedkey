@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -89,97 +90,129 @@ namespace AutomateKey
         int count = 0;
         private void Runbutton_Click(object sender, RoutedEventArgs e)
         {
-            int numberofRun = 1;
-            int.TryParse(numberofruntxt.Text, out numberofRun);
-            count = 0;
-            string[] inputtext = Maintext.Text.Split(new string[] { ";", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-            for (int i = 0; i < numberofRun; i++)
+            try
             {
-                for (int j = 0; j < inputtext.Length; j++)
+
+
+                int numberofRun = 1;
+                int.TryParse(numberofruntxt.Text, out numberofRun);
+                count = 0;
+                string[] inputtext = Maintext.Text.Split(new string[] { ";", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                for (int i = 0; i < numberofRun; i++)
                 {
-                    string[] BlocksinLine = inputtext[j].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    try
+                    for (int j = 0; j < inputtext.Length; j++)
                     {
-                        Thread.Sleep(int.Parse(BlocksinLine[1]));
-                        switch (BlocksinLine[0].Trim().ToLower())
+                        string[] BlocksinLine = inputtext[j].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        int numberofrepeat = 1;
+                        int.TryParse(BlocksinLine[2], out numberofrepeat);
+                        for (int b = 0; b < numberofrepeat; b++)
+                            try
+                            {
+                                Thread.Sleep(int.Parse(BlocksinLine[1]));
+                                switch (BlocksinLine[0].Trim().ToLower())
+                                {
+                                    case "move":
+                                        {
+
+                                            SetCursorPos(int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()));
+                                            break;
+                                        }
+                                    case "scroll":
+                                        {
+                                            mouse_event(MOUSEEVENTF_Rotate, int.Parse(BlocksinLine[2]), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                            break;
+                                        }
+                                    case "leftclick":
+                                        {
+                                            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                            break;
+                                        }
+                                    case "leftdown":
+                                        {
+                                            mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                            break;
+                                        }
+                                    case "leftup":
+                                        {
+                                            mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                            break;
+                                        }
+                                    case "rightclick":
+                                        {
+                                            mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                            break;
+                                        }
+
+                                    case "type":
+                                        {
+                                            SendKeys.Send(BlocksinLine[2].Trim());
+                                            break;
+                                        }
+                                    case "snapshot":
+                                        {
+                                            //CopyScreen();
+                                            PrintScreen();
+
+
+
+                                            break;
+                                        }
+                                    case "enter":
+                                        {
+                                            SendKeys.Send("{ENTER}");
+                                            break;
+                                        }
+                                    case "minimize":
+                                        {
+                                            mainwin.WindowState = WindowState.Minimized;
+                                            break;
+                                        }
+                                    default:
+                                        {
+
+                                            break;
+                                        }
+                                }
+                            }
+#if DEBUG
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex.Message);
+
+                            }
+
+#else
+                    catch
                         {
-                            case "move":
-                                {
+                            
 
-                                    SetCursorPos(int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()));
-                                    break;
-                                }
-                            case "scroll":
-                                {
-                                    mouse_event(MOUSEEVENTF_Rotate, int.Parse(BlocksinLine[2]), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                    break;
-                                }
-                            case "leftclick":
-                                {
-                                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                    break;
-                                }
-                            case "leftdown":
-                                {
-                                    mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                    break;
-                                }
-                            case "leftup":
-                                {
-                                    mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                    break;
-                                }
-                            case "rightclick":
-                                {
-                                    mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                    break;
-                                }
-
-                            case "type":
-                                {
-                                    SendKeys.Send(BlocksinLine[2].Trim());
-                                    break;
-                                }
-                            case "snapshot":
-                                {
-                                    //CopyScreen();
-                                    PrintScreen();
-
-
-
-                                    break;
-                                }
-                            case "enter":
-                                {
-                                    SendKeys.Send("{ENTER}");
-                                    break;
-                                }
-                            case "minimize":
-                                {
-                                    mainwin.WindowState = WindowState.Minimized;
-                                    break;
-                                }
-                            default:
-                                {
-
-                                    break;
-                                }
                         }
+                                        
+#endif
+
+
+
                     }
-                    catch 
-                    {
-                      
-
-                    }
-
-
-
-
 
                 }
+            }
+#if DEBUG
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
 
             }
+
+#else   
+                    catch
+                        {
+                            
+
+                        }
+                                        
+#endif
+
         }
 
         private void CopyScreen()
@@ -199,7 +232,7 @@ namespace AutomateKey
                 filePath = director + "\\" + nume + "." + format;
             }
 
-         
+
             var image = System.Windows.Clipboard.GetImage();
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
@@ -227,7 +260,7 @@ namespace AutomateKey
                 director = Directory.GetCurrentDirectory();
                 filePath = director + "\\" + nume + "." + format;
             }
-             
+
             Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
             Graphics graphics = Graphics.FromImage(printscreen as System.Drawing.Image);
@@ -283,17 +316,18 @@ namespace AutomateKey
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            this.Title = "Command,Delay,Number of repeat, the rest, , ;";
             Maintext.Text =
-            "leftclick,1000,20,40;" + "\n" +
-            "scroll,1000,0,10;" + "\n" +
-            "minimize,1000;" + "\n" +
-            "move,1000,20,20;" + "\n" +
-            "leftclick,1000,20,20;" + "\n" +
-            "leftdown,1000,20,20;" + "\n" +
-              "leftup,1000,20,20;" + "\n" +
-            "rightclick,1000,20,20;" + "\n" +
-            "type,1000,hello;" + "\n" +
-            "snapshot,1000;" + "\n";
+            "leftclick,1000,1,20,40;" + "\n" +
+            "scroll,1000,1,0,10;" + "\n" +
+            "minimize,1000,1;" + "\n" +
+            "move,1000,1,20,20;" + "\n" +
+            "leftclick,1000,1,20,20;" + "\n" +
+            "leftdown,1000,1,20,20;" + "\n" +
+              "leftup,1000,1,20,20;" + "\n" +
+            "rightclick,1000,1,20,20;" + "\n" +
+            "type,1000,1,hello;" + "\n" +
+            "snapshot,1000,1;" + "\n";
         }
 
         private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
