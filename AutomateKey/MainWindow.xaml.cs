@@ -51,6 +51,7 @@ namespace AutomateKey
         [DllImport("user32.dll")]
         static extern bool SetCursorPos(int X, int Y);
 
+
         public static void MoveCursorToPoint(int x, int y)
         {
             SetCursorPos(x, y);
@@ -117,39 +118,43 @@ namespace AutomateKey
                                         case "move":
                                             {
 
-                                                SetCursorPos(int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()));
+                                                MoveCursorToPoint(int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()));
                                                 break;
                                             }
                                         case "scroll":
                                             {
-                                                mouse_event(MOUSEEVENTF_Rotate, int.Parse(BlocksinLine[2]), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                mouse_event(MOUSEEVENTF_Rotate, int.Parse(BlocksinLine[3]), int.Parse(BlocksinLine[4].Trim()), 0, 0);
                                                 break;
                                             }
                                         case "leftclick":
                                             {
-                                                mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                                mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                MoveCursorToPoint(int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()));
+                                                mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()), 0, 0);
+                                                mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()), 0, 0);
                                                 break;
                                             }
                                         case "leftdown":
                                             {
-                                                mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                MoveCursorToPoint(int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()));
+                                                mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()), 0, 0);
                                                 break;
                                             }
                                         case "leftup":
                                             {
-                                                mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                MoveCursorToPoint(int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()));
+                                                mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()), 0, 0);
                                                 break;
                                             }
                                         case "rightclick":
                                             {
-                                                mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                MoveCursorToPoint(int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()));
+                                                mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, int.Parse(BlocksinLine[3].Trim()), int.Parse(BlocksinLine[4].Trim()), 0, 0);
                                                 break;
                                             }
 
                                         case "type":
                                             {
-                                                SendKeys.Send(BlocksinLine[2].Trim());
+                                                SendKeys.Send(BlocksinLine[3].Trim());
                                                 break;
                                             }
                                         case "snapshot":
