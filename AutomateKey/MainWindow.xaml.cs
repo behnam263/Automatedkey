@@ -103,78 +103,81 @@ namespace AutomateKey
                 {
                     for (int j = 0; j < inputtext.Length; j++)
                     {
-                        string[] BlocksinLine = inputtext[j].Split(new string[] { ",","\r" }, StringSplitOptions.RemoveEmptyEntries);
-                        int numberofrepeat = 1;
-                        int.TryParse(BlocksinLine[2], out numberofrepeat);
-                        for (int b = 0; b < numberofrepeat; b++)
-                            try
-                            {
-                                Thread.Sleep(int.Parse(BlocksinLine[1]));
-                                switch (BlocksinLine[0].Trim().ToLower())
+                        string[] BlocksinLine = inputtext[j].Split(new string[] { ",", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (BlocksinLine.Length > 0)
+                        {
+                            int numberofrepeat = 1;
+                            int.TryParse(BlocksinLine[2], out numberofrepeat);
+                            for (int b = 0; b < numberofrepeat; b++)
+                                try
                                 {
-                                    case "move":
-                                        {
+                                    Thread.Sleep(int.Parse(BlocksinLine[1]));
+                                    switch (BlocksinLine[0].Trim().ToLower())
+                                    {
+                                        case "move":
+                                            {
 
-                                            SetCursorPos(int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()));
-                                            break;
-                                        }
-                                    case "scroll":
-                                        {
-                                            mouse_event(MOUSEEVENTF_Rotate, int.Parse(BlocksinLine[2]), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                            break;
-                                        }
-                                    case "leftclick":
-                                        {
-                                            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                            break;
-                                        }
-                                    case "leftdown":
-                                        {
-                                            mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                            break;
-                                        }
-                                    case "leftup":
-                                        {
-                                            mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                            break;
-                                        }
-                                    case "rightclick":
-                                        {
-                                            mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
-                                            break;
-                                        }
+                                                SetCursorPos(int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()));
+                                                break;
+                                            }
+                                        case "scroll":
+                                            {
+                                                mouse_event(MOUSEEVENTF_Rotate, int.Parse(BlocksinLine[2]), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                break;
+                                            }
+                                        case "leftclick":
+                                            {
+                                                mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                break;
+                                            }
+                                        case "leftdown":
+                                            {
+                                                mouse_event(MOUSEEVENTF_LEFTDOWN, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                break;
+                                            }
+                                        case "leftup":
+                                            {
+                                                mouse_event(MOUSEEVENTF_LEFTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                break;
+                                            }
+                                        case "rightclick":
+                                            {
+                                                mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, int.Parse(BlocksinLine[2].Trim()), int.Parse(BlocksinLine[3].Trim()), 0, 0);
+                                                break;
+                                            }
 
-                                    case "type":
-                                        {
-                                            SendKeys.Send(BlocksinLine[2].Trim());
-                                            break;
-                                        }
-                                    case "snapshot":
-                                        {
-                                            //CopyScreen();
-                                            PrintScreen();
+                                        case "type":
+                                            {
+                                                SendKeys.Send(BlocksinLine[2].Trim());
+                                                break;
+                                            }
+                                        case "snapshot":
+                                            {
+                                                //CopyScreen();
+                                                PrintScreen();
 
 
 
-                                            break;
-                                        }
-                                    case "enter":
-                                        {
-                                            SendKeys.Send("{ENTER}");
-                                            break;
-                                        }
-                                    case "minimize":
-                                        {
-                                            mainwin.WindowState = WindowState.Minimized;
-                                            break;
-                                        }
-                                    default:
-                                        {
+                                                break;
+                                            }
+                                        case "enter":
+                                            {
+                                                SendKeys.Send("{ENTER}");
+                                                break;
+                                            }
+                                        case "minimize":
+                                            {
+                                                mainwin.WindowState = WindowState.Minimized;
+                                                break;
+                                            }
+                                        default:
+                                            {
 
-                                            break;
-                                        }
+                                                break;
+                                            }
+                                    }
                                 }
-                            }
 #if DEBUG
                             catch (Exception ex)
                             {
@@ -183,14 +186,14 @@ namespace AutomateKey
                             }
 
 #else
-                    catch
-                        {
-                            
+                                catch
+                                {
 
-                        }
-                                        
+
+                                }
+
 #endif
-
+                        }
 
 
                     }
