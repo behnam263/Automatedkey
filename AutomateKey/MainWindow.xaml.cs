@@ -103,7 +103,7 @@ namespace AutomateKey
                 {
                     for (int j = 0; j < inputtext.Length; j++)
                     {
-                        string[] BlocksinLine = inputtext[j].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] BlocksinLine = inputtext[j].Split(new string[] { ",","\r" }, StringSplitOptions.RemoveEmptyEntries);
                         int numberofrepeat = 1;
                         int.TryParse(BlocksinLine[2], out numberofrepeat);
                         for (int b = 0; b < numberofrepeat; b++)
